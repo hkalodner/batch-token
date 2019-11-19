@@ -1,0 +1,50 @@
+const BatchToken = artifacts.require("./BatchToken.sol");
+
+function setupCall(sender, dest, nonce, amount) {
+	let data = web3.utils.toBN(0)
+		.add(web3.utils.toBN(amount))
+		.shln(32)
+		.add(web3.utils.toBN(nonce))
+		.shln(32)
+		.add(web3.utils.toBN(dest))
+		.shln(32)
+		.add(web3.utils.toBN(sender));
+
+	let messageHash = web3.utils.soliditySha3(
+		{t: "uint256", v: data}
+	);
+	return [data, "0x" + data.toString(16, 64)];
+}
+
+contract("BatchToken", accounts => {
+	it("it should be cheap", async () => {
+		let instance = await BatchToken.deployed();
+		await instance.registerAccount.sendTransaction({from: accounts[1]});
+		let [data, messageHash] = setupCall(0, 1, 0, 1);
+		let sig = await web3.eth.sign(messageHash, accounts[0]);
+		await instance.batchTransfer(
+			sig,
+			[data],
+		);
+		
+		let datas = [];
+		let sigs = [];
+		for (let i = 1; i < 100; i++) {
+			let [data, messageHash] = setupCall(0, 1, i, 1);
+			let sig = await web3.eth.sign(messageHash, accounts[0]);
+			datas.push(data);
+			sigs.push(sig)
+		}
+
+		let fullSig = "0x";
+		for (let i = 0; i < sigs.length; i++) {
+			fullSig += sigs[i].substring(2);
+		}
+		await instance.batchTransfer(
+			fullSig,
+			datas
+		);
+		let newBalance = await instance.accounts(1);
+		console.log("Account balance", newBalance.balance.toString());
+	});
+});

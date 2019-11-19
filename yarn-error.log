@@ -1,0 +1,39 @@
+Arguments: 
+  /Users/hkalodner/.nvm/versions/node/v11.15.0/bin/node /usr/local/Cellar/yarn/1.19.1/libexec/bin/yarn.js
+
+PATH: 
+  /Users/hkalodner/.nvm/versions/node/v11.15.0/bin:/Users/hkalodner/.cargo/bin:/Users/hkalodner/.pyenv/shims:/Users/hkalodner/.pyenv/bin:/usr/local/Cellar/node/11.9.0/bin:/Users/hkalodner/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Library/Apple/bin:/Applications/Wireshark.app/Contents/MacOS:/Users/hkalodner/go/bin:/usr/local/opt/llvm/bin
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  11.15.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/hkalodner/Documents/OffchainLabs/Github/batch-erc20/package.json: Unexpected token } in JSON at position 156
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.19.1/libexec/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.19.1/libexec/lib/cli.js:304:30)
+      at /usr/local/Cellar/yarn/1.19.1/libexec/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "batch-erc20",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+      "@openzeppelin/contracts": "^2.4.0"
+    },
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
