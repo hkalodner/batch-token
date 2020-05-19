@@ -18,11 +18,11 @@ function setupCall(sender, dest, nonce, amount) {
 
 contract("BatchToken", accounts => {
 	it("it should be cheap", async () => {
-		let instance = await BatchToken.deployed();
+		let instance = await BatchToken.new({value: web3.utils.toWei("1")});
 		await instance.registerAccount.sendTransaction({from: accounts[1]});
 		let [data, messageHash] = setupCall(0, 1, 0, 1);
 		let sig = await web3.eth.sign(messageHash, accounts[0]);
-		await instance.batchTransfer(
+		await instance.sequencerBatchTransfer(
 			sig,
 			[data],
 		);
@@ -40,7 +40,7 @@ contract("BatchToken", accounts => {
 		for (let i = 0; i < sigs.length; i++) {
 			fullSig += sigs[i].substring(2);
 		}
-		let tx = await instance.batchTransfer(
+		let tx = await instance.sequencerBatchTransfer(
 			fullSig,
 			datas
 		);
