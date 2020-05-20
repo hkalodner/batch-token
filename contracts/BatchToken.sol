@@ -104,7 +104,7 @@ contract BatchToken {
           v += 27;
         }
         require(v == 27 || v == 28);
-        require(ecrecover(batches[batchNum], v, r, s) == sequencer);
+        require(ecrecover(keccak256(abi.encodePacked(batches[batchNum], batchNum)), v, r, s) == sequencer);
 
         address(0).transfer(SEQUENCER_DEPOSIT);
     }
